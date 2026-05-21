@@ -14,12 +14,24 @@ public class TipSteps {
 
     TipCalculatorPage page;
 
-    // ✅ ADD THIS (VERY IMPORTANT)
+    //  (VERY IMPORTANT)
     @Before
     public void setup() {
-        DriverFactory.initDriver("chrome");   // you can make dynamic later
+
+        String threadName = Thread.currentThread().getName();
+        String browser;
+
+        if (threadName.contains("1")) {
+            browser = "chrome";
+        } else {
+            browser = "edge";
+        }
+
+        DriverFactory.initDriver(browser);
         page = new TipCalculatorPage();
     }
+
+   
 
     // ✅ FIXED
     @Given("user launches application")
@@ -62,7 +74,7 @@ public class TipSteps {
         Assert.assertFalse(page.billError().isEmpty());
     }
 
-    // ✅ ADD THIS (CLOSE DRIVER)
+    //  (CLOSE DRIVER)
     @After
     public void tearDown() {
         DriverFactory.quitDriver();
